@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sl.api.dao.ApiSchedulerMapper">
+
+    <resultMap id="BaseResultMap" type="com.sl.api.entity.ApiScheduler">
+        <result column="job_name" jdbcType="INTEGER" property="jobName"/>
+        <result column="trigger_name" jdbcType="VARCHAR" property="triggerName"/>
+        <result column="job_group_name" jdbcType="VARCHAR" property="jobGroupName"/>
+        <result column="trigger_group_name" jdbcType="VARCHAR" property="triggerGroupName"/>
+        <result column="corn" jdbcType="INTEGER" property="corn"/>
+        <result column="is_vaild" jdbcType="VARCHAR" property="isVaild"/>
+        <result column="class_path" jdbcType="VARCHAR" property="classPath"/>
+        <result column="is_restart" jdbcType="VARCHAR" property="isRestart"/>
+        <result column="last_run_time" jdbcType="VARCHAR" property="lastRunTime"/>
+        <result column="restart_time" jdbcType="VARCHAR" property="restartRime"/>
+
+    </resultMap>
+    <select id="getSchedulerList" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+     SELECT a.job_name,a.trigger_name,a.job_group_name,a.trigger_group_name,a.is_vaild,a.class_path,
+     a.is_restart,a.corn,a.is_vaild from api_scheduler a
+
+    </select>
+
+    <update id="updateRestartTime" parameterType="java.lang.String">
+         update api_scheduler set restart_time= now(),is_restart = '0'
+         where job_name =#{jobName,jdbcType=VARCHAR} and trigger_name = #{triggerName,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateLastRunTime" parameterType="java.lang.String">
+        update api_scheduler set last_run_time= now()  where job_name =#{jobName,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

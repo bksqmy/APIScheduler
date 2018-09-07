@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="org.springframework.web" level="INFO"/>
+    <logger name="com.aliyun.java.api.framework" level="INFO"/>
+    <appender name="comsoleAppender" class = "ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg %n</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <springProfile name="dev">
+        <logger name="com.aliyun.java.api.framework" level="INFO"/>
+        <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>/data/log/javapi/service.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>srevice.%d{yyyy-MM-dd}.log</FileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg %n</Pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="prod">
+        <logger name="com.aliyun.java.api.framework" level="ERROR"/>
+        <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>/data/log/javapi/service.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>srevice.%d{yyyy-MM-dd}.log</FileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg %n</Pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+</configuration>
